@@ -1,0 +1,2 @@
+-- SQLite
+drop Table Countries 
