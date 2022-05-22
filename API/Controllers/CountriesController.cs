@@ -1,3 +1,4 @@
+using Application.Countries;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,29 +8,25 @@ namespace API.Controllers
 {
     public class CountriesController : BaseController
     {
-        private readonly DataContext _context;
-
-        public CountriesController(DataContext context)
-        {
-            _context = context;
-        }
+        
 
         [HttpGet] // api/Countries
         public async Task<ActionResult<List<Country>>> GetCountries()
         {
-            return await _context.Countries.ToListAsync();
+            return await Mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")] //api/Activities/{id}
         public async Task<ActionResult<Country>> GetCountry(Guid id)
         {
-            return await _context.Countries.FindAsync(id);
+            return await Mediator.Send(new Details.Query{Id = id});
         }
+
 
         [HttpGet("speak/{language}")] //api/Countries/{languages}
         public async Task<ActionResult<List<Country>>> GetCountriesThatSpeak(string language)
         {
-            return await _context.Countries.Where((Country country) => country.Language.ToLower() == language.ToLower()).ToListAsync();
+            return await Mediator.Send(new Language.Query{Language = language});
         }
     }
 }
