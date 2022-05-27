@@ -3,12 +3,14 @@ using Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using FCountries;
 
 namespace API.Controllers
 {
     public class CountriesController : BaseController
     {
-        
+        private readonly DataContext _context;
+
 
         [HttpGet] // api/Countries
         public async Task<ActionResult<List<Country>>> GetCountries()
@@ -19,14 +21,15 @@ namespace API.Controllers
         [HttpGet("{id}")] //api/Activities/{id}
         public async Task<ActionResult<Country>> GetCountry(Guid id)
         {
-            return await Mediator.Send(new Details.Query{Id = id});
+            return await Mediator.Send(new Details.Query { Id = id });
         }
 
 
         [HttpGet("speak/{language}")] //api/Countries/{languages}
         public async Task<ActionResult<List<Country>>> GetCountriesThatSpeak(string language)
         {
-            return await Mediator.Send(new Language.Query{Language = language});
+            return await Mediator.Send(new Language.Query { Language = language });
         }
+
     }
 }
