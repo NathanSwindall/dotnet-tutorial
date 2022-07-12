@@ -30,7 +30,7 @@ namespace Application.Activities
 
                 await _context.SaveChangesAsync(); // Now save those changes
 
-                return Unit.Value;
+                return Unit.Value; // This is needed for the return type to work
 
             }
         }
